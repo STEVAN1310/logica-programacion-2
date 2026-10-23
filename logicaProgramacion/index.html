@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Convertidor de Temperatura - Lógica de Programación 2</title>
+    <style>
+        body { font-family: sans-serif; margin: 40px; background-color: #f4f4f9; color: #333; }
+        .container { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); max-width: 400px; }
+        h1 { font-size: 20px; }
+        p { font-size: 16px; margin: 8px 0; }
+        .resultado { font-weight: bold; color: #0066cc; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Conversor de Temperatura</h1>
+        <div id="resultados-dom">
+            <p>Esperando datos de entrada...</p>
+        </div>
+    </div>
+
+    <script>
+        function iniciarConvertidor() {
+            let entrada;
+            let celsius;
+
+            // Bucle que continuará solicitando el dato hasta que sea un número válido
+            while (true) {
+                entrada = prompt("Por favor, ingresa la temperatura en grados Celsius:");
+
+                // Si el usuario presiona "Cancelar", detenemos la ejecución
+                if (entrada === null) {
+                    document.getElementById('resultados-dom').innerHTML = "<p>Operación cancelada por el usuario.</p>";
+                    return;
+                }
+
+                // Quitamos espacios en blanco y verificamos que no esté vacío
+                entrada = entrada.trim();
+                celsius = Number(entrada);
+
+                // Validación: Si no es un número o si el string estaba vacío, da error
+                if (isNaN(celsius) || entrada === "") {
+                    alert("Error: El dato ingresado no es un número válido. Inténtalo de nuevo.");
+                } else {
+                    // Si pasa la validación, salimos del bucle
+                    break;
+                }
+            }
+
+            // Realizar las conversiones analizando fórmulas matemáticas exactas
+            // Celsius a Fahrenheit: (C * 9/5) + 32
+            let fahrenheit = (celsius * 9 / 5) + 32;
+            // Celsius a Kelvin: C + 273.15
+            let kelvin = celsius + 273.15;
+
+            // Formatear la salida para evitar problemas con decimales flotantes largos
+            // Si son enteros se muestran fijos, si tienen decimales respetamos su valor
+            let kelvinResultado = Number(kelvin.toFixed(2));
+            let fahrenheitResultado = Number(fahrenheit.toFixed(2));
+
+            // Imprimir resultados en la Consola
+            console.log("Grados Kelvin: " + kelvinResultado);
+            console.log("Grados Fahrenheit: " + fahrenheitResultado);
+
+            // Imprimir resultados en el DOM (Página Web)
+            document.getElementById('resultados-dom').innerHTML = `
+                <p>Temperatura ingresada: <strong>${celsius} °C</strong></p>
+                <p class="resultado">Grados Kelvin: ${kelvinResultado}</p>
+                <p class="resultado">Grados Fahrenheit: ${fahrenheitResultado}</p>
+            `;
+        }
+
+        // Ejecutar la función automáticamente al cargar la página
+        iniciarConvertidor();
+    </script>
+</body>
+</html>
+
